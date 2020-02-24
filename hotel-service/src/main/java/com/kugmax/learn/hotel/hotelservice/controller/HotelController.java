@@ -1,13 +1,11 @@
 package com.kugmax.learn.hotel.hotelservice.controller;
 
 import com.kugmax.learn.hotel.hotelservice.dot.HotelInfoDto;
-import com.kugmax.learn.hotel.hotelservice.model.Address;
 import com.kugmax.learn.hotel.hotelservice.model.Hotel;
 import com.kugmax.learn.hotel.hotelservice.service.HotelService;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +30,11 @@ public class HotelController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Hotel> getHotels(@RequestParam("poi") String poi) {
 
+        log.info("getHotels, poi=" + poi);
+
         List<Hotel> result = hotelService.findHotelsByPoi(poi);
 
-        log.info(result);
+        log.info("getHotels: " + result);
 
         return result;
     }

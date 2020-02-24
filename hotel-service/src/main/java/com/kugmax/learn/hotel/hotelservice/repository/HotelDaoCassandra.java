@@ -1,8 +1,8 @@
 package com.kugmax.learn.hotel.hotelservice.repository;
 
+import com.datastax.driver.core.SimpleStatement;
 import com.kugmax.learn.hotel.hotelservice.model.Hotel;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,9 +15,9 @@ public class HotelDaoCassandra implements HotelDao {
     @Override
     public List<Hotel> findHotelsByPoi(String poi) {
 
-        String cql = "select poi_name, hotel_id, name, phone from hotels_by_poi where poi_name = ?";
+        String cql = "select poi_name, hotel_id as id, name, phone from hotels_by_poi where poi_name = ?";
 
-        return cassandraTemplate.select(cql , Hotel.class);
+        return cassandraTemplate.select(new SimpleStatement(cql, poi) , Hotel.class);
     }
 
     @Override
