@@ -15,10 +15,6 @@ public class HotelDaoCassandra implements HotelDao {
     @Override
     public List<Hotel> findHotelsByPoi(String poi) {
 
-//        address  frozen<address>,
-//TODO
-//        ConverterNotFoundException: No converter found capable of converting from type [com.datastax.driver.core.UDTValue] to type [com.kugmax.learn.hotel.hotelservice.model.Address]
-
         String cql = "select poi_name, hotel_id, name, phone from hotels_by_poi where poi_name = ?";
 
         return cassandraTemplate.select(cql , Hotel.class);
