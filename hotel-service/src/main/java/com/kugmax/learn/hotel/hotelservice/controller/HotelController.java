@@ -2,13 +2,18 @@ package com.kugmax.learn.hotel.hotelservice.controller;
 
 import com.kugmax.learn.hotel.hotelservice.dot.HotelInfoDto;
 import com.kugmax.learn.hotel.hotelservice.model.Hotel;
+import com.kugmax.learn.hotel.hotelservice.model.Poi;
+import com.kugmax.learn.hotel.hotelservice.model.Room;
 import com.kugmax.learn.hotel.hotelservice.service.HotelService;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,16 +65,31 @@ public class HotelController {
     //    Q3. Find points of interest near a given hotel.
     @ResponseBody
     @RequestMapping(value = "/poi/", method = RequestMethod.GET)
-    public Map<String, String> getPois(@RequestParam("hotelId") String hotelId) {
-        return null;
+    public List<Poi> getPois(@RequestParam("hotelId") String hotelId) {
+
+        List<Poi> pois = hotelService.findPoisByHotel(hotelId);
+
+        log.info("getPois: " + pois);
+
+        return pois;
     }
 
     //    Q4. Find an available room in a given date range.
     @ResponseBody
     @RequestMapping(value = "/{hotelId}/room/", method = RequestMethod.GET)
-    public Map<String, String> getRooms(@PathVariable("hotelId") String hotelId,
-        @RequestParam("fromDate") Instant fromDate, @RequestParam("toDate") Instant toDate) {
-        return null;
+    public List<Room> getRooms(@PathVariable("hotelId") String hotelId,
+        @RequestParam("fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate fromDate,
+        @RequestParam("toDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate toDate) {
+
+        log.info("getRooms, hotelId " + hotelId);
+        log.info("getRooms, fromDate " + fromDate);
+        log.info("getRooms, toDate " + toDate);
+
+        List<Room> result = hotelService.findAvailableRoomsByHotel(hotelId, fromDate, toDate);
+
+        log.info("getRooms: " + result);
+
+        return result;
     }
 
     //    Q5. Find the rate and amenities for a room.

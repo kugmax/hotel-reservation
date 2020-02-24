@@ -47,6 +47,8 @@ CREATE TABLE if not EXISTS hotel.available_rooms_by_hotel_date
     PRIMARY KEY ((hotel_id), date, room_number)
 ) WITH comment = 'Q4.Find available rooms by hotel date';
 
+CREATE INDEX indx_rooms_by_hotel_date ON hotel.available_rooms_by_hotel_date (date);
+
 CREATE TABLE if not EXISTS hotel.amenities_by_room
 (
     hotel_id     text,
